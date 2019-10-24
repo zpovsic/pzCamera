@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/root_background">
+
+    <!-- Camera -->
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:keepScreenOn="true"
+        app:cameraAudio="on"
+        app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"
+        app:cameraEngine="camera2"
+        app:cameraExperimental="true"
+        app:cameraFacing="back"
+        app:cameraFlash="auto"
+        app:cameraGestureLongTap="none"
+        app:cameraGesturePinch="zoom"
+        app:cameraGestureScrollHorizontal="filterControl1"
+        app:cameraGestureScrollVertical="none"
+        app:cameraGestureTap="autoFocus"
+        app:cameraGrid="off"
+        app:cameraHdr="on"
+        app:cameraMode="picture"
+        app:cameraPictureMetering="true"
+        app:cameraPlaySounds="true"
+        app:cameraPreview="glSurface"
+        app:cameraUseDeviceOrientation="true"
+        app:cameraVideoCodec="deviceDefault"
+        app:cameraWhiteBalance="auto">
+
+        <!-- Watermark -->
+        <ImageView
+            android:id="@+id/watermark"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="bottom|start"
+            android:contentDescription="@string/watermark_description"
+            android:src="@drawable/watermark"
+            app:layout_drawOnPictureSnapshot="true"
+            app:layout_drawOnPreview="true"
+            app:layout_drawOnVideoSnapshot="true" />
+
+    </com.otaliastudios.cameraview.CameraView>
+
+    <!-- Controls -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controlsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center|start">
+
+        <!-- Options -->
+        <ImageButton
+            android:id="@+id/changeFilter"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_outer_circle"
+            android:contentDescription="@string/options_description"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_filters" />
+
+        <ImageButton
+            android:id="@+id/toggleCamera"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:background="@drawable/ic_outer_circle"
+            android:contentDescription="@string/switch_camera_button_alt"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/capturePicture"
+            app:layout_constraintStart_toEndOf="@+id/changeFilter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_switch" />
+
+        <ImageButton
+            android:id="@+id/capturePicture"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:background="@drawable/ic_outer_circle"
+            android:contentDescription="@string/capture_button_alt"
+            android:elevation="3dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/watermark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/toggleVideo"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_outer_circle"
+            android:contentDescription="@string/toggle_description"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/thumbnail"
+            app:layout_constraintStart_toEndOf="@+id/capturePicture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_photo" />
+
+        <ImageButton
+            android:id="@+id/thumbnail"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_outer_circle"
+            android:contentDescription="@string/gallery_button_alt"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_small"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/capturePicture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Settings -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_dark_transparent">
+
+        <ImageButton
+            android:id="@+id/flashButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/focusButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_flash_auto_24dp" />
+
+        <ImageButton
+            android:id="@+id/focusButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/exposureButton"
+            app:layout_constraintStart_toEndOf="@+id/flashButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_brightness_high_24dp" />
+
+        <ImageButton
+            android:id="@+id/exposureButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/wbButton"
+            app:layout_constraintStart_toEndOf="@id/focusButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_exposure_24dp" />
+
+        <ImageButton
+            android:id="@+id/wbButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/aiButton"
+            app:layout_constraintStart_toEndOf="@id/exposureButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_wb_auto_24dp" />
+
+        <ImageButton
+            android:id="@+id/aiButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/settingsButton"
+            app:layout_constraintStart_toEndOf="@+id/wbButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_assistant_24dp" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="@dimen/round_button_medium"
+            android:layout_height="@dimen/round_button_medium"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="@dimen/mtrl_emphasis_high_type"
+            android:background="@android:color/transparent"
+            android:elevation="3dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/aiButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_settings_24dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
