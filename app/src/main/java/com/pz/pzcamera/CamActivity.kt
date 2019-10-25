@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import android.webkit.MimeTypeMap
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
@@ -132,18 +134,28 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
                         lastTime = newTime
                         LOG!!.e("Frame delayMillis:", delay, "FPS:", 1000 / delay)
                         if (DECODE_BITMAP) {
-                            val yuvImage = YuvImage(frame.data, ImageFormat.NV21,
-                                    frame.size.width,
-                                    frame.size.height,
-                                    null)
+                            val yuvImage = YuvImage(
+                                frame.data, ImageFormat.NV21,
+                                frame.size.width,
+                                frame.size.height,
+                                null
+                            )
 
                             val jpegStream = ByteArrayOutputStream()
-                            yuvImage.compressToJpeg(Rect(0, 0,
+                            yuvImage.compressToJpeg(
+                                Rect(
+                                    0, 0,
                                     frame.size.width,
-                                    frame.size.height), 100, jpegStream)
+                                    frame.size.height
+                                ), 100, jpegStream
+                            )
 
                             val jpegByteArray: ByteArray? = jpegStream.toByteArray()
-                            val bitmap: Bitmap? = BitmapFactory.decodeByteArray(jpegByteArray, 0, jpegByteArray!!.size)
+                            val bitmap: Bitmap? = BitmapFactory.decodeByteArray(
+                                jpegByteArray,
+                                0,
+                                jpegByteArray!!.size
+                            )
                             bitmap.toString()
                         }
                     }
@@ -160,9 +172,9 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
 
                 // Load thumbnail into circular button using Glide
                 Glide.with(thumbnail)
-                        .load(file)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(thumbnail)
+                    .load(file)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(thumbnail)
             }
         }
 
@@ -190,15 +202,19 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
             // but otherwise other apps will not be able to access our images unless we
             // scan them using [MediaScannerConnection]
             val mimeType = MimeTypeMap.getSingleton()
-                    .getMimeTypeFromExtension(photoFile.extension)
+                .getMimeTypeFromExtension(photoFile.extension)
             MediaScannerConnection.scanFile(
-                    this@CamActivity, arrayOf(photoFile.absolutePath), arrayOf(mimeType), null)
+                this@CamActivity, arrayOf(photoFile.absolutePath), arrayOf(mimeType), null
+            )
 
             // This can happen if picture was taken with a gesture.
             val callbackTime = System.currentTimeMillis()
             if (mCaptureTime == 0L) mCaptureTime = callbackTime - 300
 
-            LOG!!.w("onPictureTaken called! Launching PicturePreviewActivity. Delay:", callbackTime - mCaptureTime)
+            LOG!!.w(
+                "onPictureTaken called! Launching PicturePreviewActivity. Delay:",
+                callbackTime - mCaptureTime
+            )
             PicturePreviewActivity.setPictureResult(result)
 
             val intent = Intent(this@CamActivity, PicturePreviewActivity::class.java)
@@ -346,6 +362,23 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
     }
 
     private fun changeFlash() {
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            listOf("Auto", "On", "Off", "Torch")
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        flashSpinner.adapter = adapter
+        flashSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                // either one will work as well
+                // val item = parent.getItemAtPosition(position) as String
+                val item = adapter.getItem(position)
+            }
+        }
         message("Flash", false)
     }
 
@@ -355,7 +388,11 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
     }
 
     //region Permissions
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         var valid = true
         for (grantResult in grantResults) {
@@ -376,8 +413,10 @@ class CamActivity : AppCompatActivity(), OnClickListener, Callback {
 
         /** Helper function used to create a timestamped file */
         private fun createFile(baseFolder: File, format: String, extension: String) =
-                File(baseFolder, SimpleDateFormat(format, Locale.US)
-                        .format(System.currentTimeMillis()) + extension)
+            File(
+                baseFolder, SimpleDateFormat(format, Locale.US)
+                    .format(System.currentTimeMillis()) + extension
+            )
     }
 }
 

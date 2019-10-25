@@ -9,7 +9,17 @@
     android:layout_height="match_parent"
     android:background="@color/root_background">
 
+
+
     <!-- Camera -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
     <com.otaliastudios.cameraview.CameraView
         android:id="@+id/camera"
         android:layout_width="match_parent"
@@ -144,7 +154,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0.8"
-        android:background="@android:drawable/screen_background_dark_transparent">
+        android:background="@android:drawable/screen_background_dark_transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/flashSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/flashSpinner">
 
         <ImageButton
             android:id="@+id/flashButton"
@@ -248,5 +260,16 @@
             app:layout_constraintStart_toEndOf="@id/aiButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_settings_24dp" />
+
+        <Spinner
+            android:id="@+id/flashSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toTopOf="@+id/flashButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
